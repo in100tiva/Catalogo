@@ -1,741 +1,298 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projetos da Sala de Aula</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --background-color: #ecf0f1;
-            --card-background: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --text-color: #333;
-            --tag-color: #e74c3c;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        p {
-            text-align: center;
-            color: var(--secondary-color);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 25px;
-            background-color: var(--accent-color);
-            color: var(--card-background);
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover, .btn:focus {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn:focus {
-            outline: 2px solid #2980b9;
-            outline-offset: 2px;
-        }
-
-        .btn-container {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .flip-card {
-            background-color: transparent;
-            width: 100%;
-            height: 380px;
-            perspective: 1000px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .flip-card.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-
-        .flip-card:hover .flip-card-inner,
-        .flip-card:focus-within .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            overflow: hidden;
-        }
-
-        .flip-card-front {
-            background-color: var(--card-background);
-            color: var(--primary-color);
-        }
-
-        .flip-card-back {
-            background-color: var(--card-background);
-            color: var(--primary-color);
-            transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 25px;
-            box-sizing: border-box;
-        }
-
-        .project-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .flip-card:hover .project-image,
-        .flip-card:focus-within .project-image {
-            transform: scale(1.1);
-        }
-
-        .project-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 12px;
-            margin: 0;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: transform 0.3s ease;
-        }
-
-        .flip-card:hover .project-title,
-        .flip-card:focus-within .project-title {
-            transform: translateY(-10px);
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .project-tag {
-            background-color: var(--tag-color);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .project-description {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            flex-grow: 1;
-            margin-bottom: 15px;
-        }
-
-        .filter-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .filter-btn {
-            background-color: var(--card-background);
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .filter-btn:hover, .filter-btn:focus {
-            background-color: var(--primary-color);
-            color: var(--card-background);
-        }
-
-        .filter-btn.active {
-            background-color: var(--primary-color);
-            color: var(--card-background);
-        }
-
-        .search-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .search-input {
-            width: 100%;
-            max-width: 400px;
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 1px solid var(--secondary-color);
-            font-size: 1rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: var(--card-background);
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            transform: scale(0.7);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .close-modal {
-            color: var(--secondary-color);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .featured-project {
-            background-color: var(--card-background);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            padding: 25px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            max-height: 280px;
-            overflow: hidden;
-        }
-
-        .featured-project-image {
-            width: 40%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-right: 25px;
-        }
-
-        .featured-project-content {
-            width: 60%;
-        }
-
-        .featured-project h2 {
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .featured-project p {
-            font-size: 0.95rem;
-            color: var(--secondary-color);
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .search-results {
-            background-color: var(--card-background);
-            border: 1px solid var(--secondary-color);
-            border-radius: 5px;
-            max-height: 200px;
-            overflow-y: auto;
-            position: absolute;
-            width: 100%;
-            max-width: 400px;
-            z-index: 10;
-            display: none;
-        }
-
-        .search-result-item {
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-result-item:hover {
-            background-color: var(--background-color);
-        }
-
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--accent-color);
-            color: white;
-            padding: 8px;
-            z-index: 100;
-            transition: top 0.3s ease;
-        }
-
-        .skip-link:focus {
-            top: 0;
-        }
-
-        @media (min-width: 768px) and (max-width: 1024px) {
-            .container {
-                padding: 30px 15px;
-            }
-
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            .projects {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .featured-project {
-                flex-direction: column;
-                max-height: none;
-                align-items: flex-start;
-            }
-
-            .featured-project-image {
-                width: 100%;
-                height: 200px;
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-
-            .featured-project-content {
-                width: 100%;
-            }
-
-            .featured-project h2 {
-                font-size: 1.3rem;
-            }
-
-            .featured-project p {
-                font-size: 0.9rem;
-            }
-
-            .flip-card {
-                height: 350px;
-            }
-
-            .project-title {
-                font-size: 1.1rem;
-            }
-
-            .project-description {
-                font-size: 0.85rem;
-            }
-
-            .filter-btn {
-                font-size: 0.85rem;
-                padding: 7px 14px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .container {
-                padding: 20px 10px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            p {
-                font-size: 0.9rem;
-            }
-
-            .projects {
-                grid-template-columns: 1fr;
-            }
-
-            .featured-project {
-                flex-direction: column;
-                max-height: none;
-            }
-
-            .featured-project-image {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-
-            .featured-project-content {
-                width: 100%;
-            }
-
-            .featured-project h2 {
-                font-size: 1.2rem;
-            }
-
-            .flip-card {
-                height: 320px;
-            }
-
-            .project-title {
-                font-size: 1rem;
-            }
-
-            .project-description {
-                font-size: 0.8rem;
-            }
-
-            .filter-btn {
-                font-size: 0.8rem;
-                padding: 6px 12px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projetos da Sala de Aula</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    .card-image-container {
+        height: 200px;
+        overflow: hidden;
+    }
+    .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
-    <div class="container">
-        <h1>Projetos da Sala de Aula</h1>
-        <p>Explore os incríveis projetos desenvolvidos pelos nossos alunos durante as aulas de desenvolvimento web.</p>
-        <div id="featuredProject" class="featured-project"></div>
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar projetos..." aria-label="Buscar projetos">
-            <div id="searchResults" class="search-results"></div>
+<div class="drawer">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content">
+        <div class="navbar bg-base-100">
+            <div class="flex-1">
+                <a class="btn btn-ghost normal-case text-xl">Projetos da Sala de Aula</a>
+            </div>
+            <div class="flex-none">
+                <label class="swap swap-rotate mr-4">
+                    <input type="checkbox" id="themeToggle" />
+                    <svg class="swap-on h-8 w-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
+                    </svg>
+                    <svg class="swap-off h-8 w-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
+                    </svg>
+                </label>
+                <label for="my-drawer" class="btn btn-square btn-ghost drawer-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </label>
+            </div>
         </div>
-        <div class="filter-container" id="filterContainer" role="group" aria-label="Filtrar projetos por tecnologia"></div>
-        <div class="btn-container">
-            <button class="btn" id="viewAllBtn">Ver todos os projetos</button>
-        </div>
-        <main id="main-content">
-            <div class="projects" id="projectsContainer"></div>
+        <main class="container mx-auto px-4 py-8">
+            <h1 class="text-4xl font-bold text-center mb-8">Projetos da Sala de Aula</h1>
+            <p class="text-center text-lg mb-12 max-w-2xl mx-auto">Explore os incríveis projetos desenvolvidos pelos nossos alunos durante as aulas de desenvolvimento web.</p>
+            
+            <div id="featuredProject" class="card card-side bg-base-100 shadow-xl mb-12"></div>
+            
+            <div class="form-control w-full max-w-xs mx-auto mb-8">
+                <input type="text" id="searchInput" placeholder="Buscar projetos..." class="input input-bordered w-full" />
+                <div id="searchResults" class="menu bg-base-200 w-full max-w-xs mt-2 rounded-box hidden"></div>
+            </div>
+            
+            <div id="filterContainer" class="flex flex-wrap justify-center gap-2 mb-8" role="group" aria-label="Filtrar projetos por tecnologia"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectsContainer"></div>
         </main>
     </div>
+    <div class="drawer-side">
+        <label for="my-drawer" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+            <li><a href="#" id="viewAllBtn">Ver Todos os Projetos</a></li>
+        </ul>
+    </div>
+</div>
 
-    <div id="projectModal" class="modal" role="dialog" aria-labelledby="modalTitle">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModal" aria-label="Fechar modal">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <div id="modalContent"></div>
+<div id="projectModal" class="modal">
+    <div class="modal-box">
+        <h3 id="modalTitle" class="font-bold text-lg"></h3>
+        <div id="modalContent"></div>
+        <div class="modal-action">
+            <a href="#" class="btn" id="closeModal">Fechar</a>
         </div>
     </div>
+</div>
 
-    <script>
-        const projects = [
-            {
-                id: 1,
-                title: 'Calculadora de Média',
-                description: 'Uma aplicação simples que calcula a média de notas dos alunos, demonstrando conceitos básicos de lógica de programação.',
-                image: '/placeholder.svg?height=400&width=400',
-                tags: ['Lógica de Programação', 'JavaScript'],
-                featured: true
-            },
-            {
-                id: 2,
-                title: 'Jogo da Adivinhação',
-                description: 'Um jogo interativo onde o jogador tenta adivinhar um número aleatório, explorando estruturas de controle em Python.',
-                image: '/placeholder.svg?height=400&width=400',
-                tags: ['Python', 'Lógica de Programação']
-            },
-            {
-                id: 3,
-                title: 'Portfólio Pessoal',
-                description: 'Um site de portfólio responsivo criado com HTML e CSS, apresentando projetos e habilidades do aluno.',
-                image: '/placeholder.svg?height=400&width=400',
-                tags: ['HTML/CSS']
-            },
-            {
-                id: 4,
-                title: 'Lista de Tarefas Interativa',
-                description: 'Uma aplicação web para gerenciar tarefas diárias, utilizando JavaScript para adicionar, remover e marcar tarefas como concluídas.',
-                image: '/placeholder.svg?height=400&width=400',
-                tags: ['JavaScript', 'HTML/CSS']
-            }
-        ];
+<script>
+    const projects = [
+        {
+            id: 1,
+            title: 'Calculadora de Média',
+            description: 'Uma aplicação simples que calcula a média de notas dos alunos, demonstrando conceitos básicos de lógica de programação.',
+            image: 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+            tags: ['Lógica de Programação', 'JavaScript'],
+            featured: true
+        },
+        {
+            id: 2,
+            title: 'Jogo da Adivinhação',
+            description: 'Um jogo interativo onde o jogador tenta adivinhar um número aleatório, explorando estruturas de controle em Python.',
+            image: 'https://images.unsplash.com/photo-1611996575749-79a3a250f948?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+            tags: ['Python', 'Lógica de Programação']
+        },
+        {
+            id: 3,
+            title: 'Portfólio Pessoal',
+            description: 'Um site de portfólio responsivo criado com HTML e CSS, apresentando projetos e habilidades do aluno.',
+            image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+            tags: ['HTML/CSS']
+        },
+        {
+            id: 4,
+            title: 'Lista de Tarefas Interativa',
+            description: 'Uma aplicação web para gerenciar tarefas diárias, utilizando JavaScript para adicionar, remover e marcar tarefas como concluídas.',
+            image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+            tags: ['JavaScript', 'HTML/CSS']
+        }
+    ];
 
-        function createProjectCard(project) {
-            return `
-                <div class="flip-card" tabindex="0" role="article" aria-labelledby="project-title-${project.id}">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img src="${project.image}" alt="" class="project-image" loading="lazy">
-                            <h3 id="project-title-${project.id}" class="project-title">${project.title}</h3>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="project-tags">
-                                ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
-                            </div>
-                            <p class="project-description">${project.description}</p>
-                            <button class="btn explore-btn" data-id="${project.id}">Explorar Projeto</button>
-                        </div>
+    function createProjectCard(project) {
+        return `
+            <div class="card bg-base-100 shadow-xl h-full" tabindex="0" role="article">
+                <figure class="card-image-container">
+                    <img src="${project.image}" alt="Imagem representativa do projeto ${project.title}" class="card-image" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title">
+                        ${project.title}
+                        ${project.featured ? '<div class="badge badge-secondary">Destaque</div>' : ''}
+                    </h2>
+                    <p>${project.description}</p>
+                    <div class="card-actions justify-end mt-auto">
+                        ${project.tags.map(tag => `<div class="badge badge-outline">${tag}</div>`).join('')}
+                    </div>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-primary explore-btn" data-id="${project.id}">Explorar Projeto</button>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        `;
+    }
 
-        function renderProjects(projectsToRender = projects) {
-            const projectsContainer = document.getElementById('projectsContainer');
-            projectsContainer.innerHTML = projectsToRender.map(createProjectCard).join('');
-            
-            const exploreButtons = document.querySelectorAll('.explore-btn');
-            exploreButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const projectId = e.target.getAttribute('data-id');
-                    openProjectModal(projectId);
-                });
-            });
-
-            // Add staggered animation
-            const cards = document.querySelectorAll('.flip-card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('show');
-                }, index * 100);
-            });
-
-            // Add keyboard navigation
-            projectsContainer.addEventListener('keydown', handleCardKeydown);
-        }
-
-        function handleCardKeydown(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                if (e.target.classList.contains('flip-card')) {
-                    e.preventDefault();
-                    const exploreBtn = e.target.querySelector('.explore-btn');
-                    if (exploreBtn) {
-                        exploreBtn.click();
-                    }
-                }
-            }
-        }
-
-        function createFilterButtons() {
-            const filterContainer = document.getElementById('filterContainer');
-            const allTags = ['Lógica de Programação', 'Python', 'HTML/CSS', 'JavaScript'];
-            
-            filterContainer.innerHTML = `
-                <button class="filter-btn active" data-tag="all">Todos</button>
-                ${allTags.map(tag => `<button class="filter-btn" data-tag="${tag}">${tag}</button>`).join('')}
-            `;
-
-            filterContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('filter-btn')) {
-                    const tag = e.target.getAttribute('data-tag');
-                    filterProjects(tag);
-                    updateActiveFilter(e.target);
-                }
-            });
-        }
-
-        function filterProjects(tag) {
-            const filteredProjects = tag === 'all' 
-                ? projects 
-                : projects.filter(project => project.tags.includes(tag));
-            renderProjects(filteredProjects);
-        }
-
-        function updateActiveFilter(clickedButton) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            clickedButton.classList.add('active');
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filteredProjects = projects.filter(project => 
-                    project.title.toLowerCase().includes(searchTerm) || 
-                    project.description.toLowerCase().includes(searchTerm) ||
-                    project.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-                );
-
-                if (searchTerm.length > 0 && filteredProjects.length > 0) {
-                    searchResults.innerHTML = filteredProjects.map(project => `
-                        <div class="search-result-item" data-id="${project.id}">${project.title}</div>
-                    `).join('');
-                    searchResults.style.display = 'block';
-                } else {
-                    searchResults.style.display = 'none';
-                }
-            });
-
-            searchResults.addEventListener('click', (e) => {
-                if (e.target.classList.contains('search-result-item')) {
-                    const projectId = e.target.getAttribute('data-id');
-                    openProjectModal(projectId);
-                    searchResults.style.display = 'none';
-                    searchInput.value = '';
-                }
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-                    searchResults.style.display = 'none';
-                }
-            });
-        }
-
-        function openProjectModal(projectId) {
-            const project = projects.find(p => p.id === parseInt(projectId));
-            const modal = document.getElementById('projectModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalContent = document.getElementById('modalContent');
-
-            modalTitle.textContent = project.title;
-            modalContent.innerHTML = `
-                <img src="${project.image}" alt="${project.title}" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;" loading="lazy">
-                <p>${project.description}</p>
-                <div class="project-tags" style="margin-top: 20px;">
-                    ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
-                </div>
-            `;
-
-            modal.style.display = 'block';
-            setTimeout(() => {
-                modal.classList.add('show');
-            }, 10);
-
-            // Set focus to the modal
-            modalTitle.focus();
-        }
-
-        function closeProjectModal() {
-            const modal = document.getElementById('projectModal');
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        }
-
-        function renderFeaturedProject() {
-            const featuredProject = projects.find(project => project.featured);
-            if (featuredProject) {
-                const featuredContainer = document.getElementById('featuredProject');
-                featuredContainer.innerHTML = `
-                    <img src="${featuredProject.image}" alt="${featuredProject.title}" class="featured-project-image" loading="lazy">
-                    <div class="featured-project-content">
-                        <h2>Projeto em Destaque: ${featuredProject.title}</h2>
-                        <p>${featuredProject.description}</p>
-                        <div class="project-tags">
-                            ${featuredProject.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
-                        </div>
-                        <button class="btn explore-btn" data-id="${featuredProject.id}">Explorar Projeto em Destaque</button>
-                    </div>
-                `;
-
-                const exploreBtn = featuredContainer.querySelector('.explore-btn');
-                exploreBtn.addEventListener('click', () => openProjectModal(featuredProject.id));
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderFeaturedProject();
-            renderProjects();
-            createFilterButtons();
-            setupSearch();
-
-            const closeModal = document.getElementById('closeModal');
-            closeModal.addEventListener('click', closeProjectModal);
-
-            window.addEventListener('click', (e) => {
-                const modal = document.getElementById('projectModal');
-                if (e.target === modal) {
-                    closeProjectModal();
-                }
-            });
-
-            const viewAllBtn = document.getElementById('viewAllBtn');
-            viewAllBtn.addEventListener('click', () => {
-                renderProjects();
-                updateActiveFilter(document.querySelector('.filter-btn[data-tag="all"]'));
-            });
-
-            // Keyboard navigation for modal
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeProjectModal();
-                }
+    function renderProjects(projectsToRender = projects) {
+        const projectsContainer = document.getElementById('projectsContainer');
+        projectsContainer.innerHTML = projectsToRender.map(createProjectCard).join('');
+        
+        const exploreButtons = document.querySelectorAll('.explore-btn');
+        exploreButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const projectId = e.target.getAttribute('data-id');
+                openProjectModal(projectId);
             });
         });
-    </script>
+    }
+
+    function createFilterButtons() {
+        const filterContainer = document.getElementById('filterContainer');
+        const allTags = ['Lógica de Programação', 'Python', 'HTML/CSS', 'JavaScript'];
+        
+        filterContainer.innerHTML = `
+            <button class="btn btn-sm btn-active" data-tag="all">Todos</button>
+            ${allTags.map(tag => `<button class="btn btn-sm" data-tag="${tag}">${tag}</button>`).join('')}
+        `;
+
+        filterContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn')) {
+                const tag = e.target.getAttribute('data-tag');
+                filterProjects(tag);
+                updateActiveFilter(e.target);
+            }
+        });
+    }
+
+    function filterProjects(tag) {
+        const filteredProjects = tag === 'all' 
+            ? projects 
+            : projects.filter(project => project.tags.includes(tag));
+        renderProjects(filteredProjects);
+    }
+
+    function updateActiveFilter(clickedButton) {
+        document.querySelectorAll('#filterContainer .btn').forEach(btn => btn.classList.remove('btn-active'));
+        clickedButton.classList.add('btn-active');
+    }
+
+    function setupSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProjects = projects.filter(project => 
+                project.title.toLowerCase().includes(searchTerm) || 
+                project.description.toLowerCase().includes(searchTerm) ||
+                project.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            );
+
+            if (searchTerm.length > 0 && filteredProjects.length > 0) {
+                searchResults.innerHTML = filteredProjects.map(project => `
+                    <li><a class="search-result-item" data-id="${project.id}">${project.title}</a></li>
+                `).join('');
+                searchResults.classList.remove('hidden');
+            } else {
+                searchResults.classList.add('hidden');
+            }
+        });
+
+        searchResults.addEventListener('click', (e) => {
+            if (e.target.classList.contains('search-result-item')) {
+                const projectId = e.target.getAttribute('data-id');
+                openProjectModal(projectId);
+                searchResults.classList.add('hidden');
+                searchInput.value = '';
+            }
+        });
+
+        document.addEventListener('click', (e) =>
+        {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.add('hidden');
+            }
+        });
+    }
+
+    function openProjectModal(projectId) {
+        const project = projects.find(p => p.id === parseInt(projectId));
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+
+        modalTitle.textContent = project.title;
+        modalContent.innerHTML = `
+            <img src="${project.image}" alt="Imagem representativa do projeto ${project.title}" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy">
+            <p>${project.description}</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+                ${project.tags.map(tag => `<div class="badge badge-outline">${tag}</div>`).join('')}
+            </div>
+        `;
+
+        modal.classList.add('modal-open');
+    }
+
+    function closeProjectModal() {
+        const modal = document.getElementById('projectModal');
+        modal.classList.remove('modal-open');
+    }
+
+    function renderFeaturedProject() {
+        const featuredProject = projects.find(project => project.featured);
+        if (featuredProject) {
+            const featuredContainer = document.getElementById('featuredProject');
+            featuredContainer.innerHTML = `
+                <figure class="w-1/3">
+                    <img src="${featuredProject.image}" alt="Imagem representativa do projeto em destaque: ${featuredProject.title}" class="w-full h-full object-cover" loading="lazy" />
+                </figure>
+                <div class="card-body w-2/3">
+                    <h2 class="card-title">
+                        Projeto em Destaque: ${featuredProject.title}
+                        <div class="badge badge-secondary">Destaque</div>
+                    </h2>
+                    <p>${featuredProject.description}</p>
+                    <div class="card-actions justify-end mt-4">
+                        ${featuredProject.tags.map(tag => `<div class="badge badge-outline">${tag}</div>`).join('')}
+                    </div>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-primary explore-btn" data-id="${featuredProject.id}">Explorar Projeto em Destaque</button>
+                    </div>
+                </div>
+            `;
+
+            const exploreBtn = featuredContainer.querySelector('.explore-btn');
+            exploreBtn.addEventListener('click', () => openProjectModal(featuredProject.id));
+        }
+    }
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderFeaturedProject();
+        renderProjects();
+        createFilterButtons();
+        setupSearch();
+
+        const closeModalBtn = document.getElementById('closeModal');
+        closeModalBtn.addEventListener('click', closeProjectModal);
+
+        const viewAllBtn = document.getElementById('viewAllBtn');
+        viewAllBtn.addEventListener('click', () => {
+            renderProjects();
+            updateActiveFilter(document.querySelector('#filterContainer .btn[data-tag="all"]'));
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('change', toggleTheme);
+    });
+</script>
 </body>
 </html>
